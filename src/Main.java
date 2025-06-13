@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -86,6 +87,7 @@ public class Main extends JFrame{
     private JButton EatInButton;
     private JButton newOrderButton;
     private JButton Logo;
+    private JButton voidOrderButton;
 
     private final JButton[] bakeryButtons = {
         pieButton, muffinButton, cookieButton, mcPopButton
@@ -159,6 +161,10 @@ public class Main extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == mealButton) {
+                    if (selectedFood == null || selectedFriesSize == null || selectedDrink == null) {
+                        textArea1.append("Please select food, fries size, and drink before adding a meal.\n");
+                        return;
+                    }
                     textArea1.append("Meal added to order.\n");
                     Meal meal = new Meal(selectedFood, selectedFriesSize, selectedDrink);
                     meal.setPrice(foodPrice, friesPrice, drinkPrice);// 20% discount on meal price
@@ -174,19 +180,41 @@ public class Main extends JFrame{
                     textArea1.append(meal + "\n");
 
                 } else if (e.getSource() == TakeOutButton) {
+                    if (subtotal == 0.0) {
+                        textArea1.append("Please select items before taking out.\n");
+                        return;
+                    }
                     textArea1.append("Take Out selected.\n");
                     textArea1.append("Subtotal: $" + String.format("%.2f", subtotal) + "\n");
                     textArea1.append("Total Price: $" + String.format("%.2f", subtotal * 1.13) + "\n");
+                    setRandomOrderNumber();
+                    textArea1.append("Your order number is: "  + orderNumber + "\n");
                 } else if (e.getSource() == EatInButton) {
+                    if (subtotal == 0.0) {
+                        textArea1.append("Please select items before eating in.\n");
+                        return;
+                    }
                     textArea1.append("Eat In selected.\n");
                     textArea1.append("Subtotal: $" + String.format("%.2f", subtotal) + "\n");
+                    setRandomOrderNumber();
                     textArea1.append("Total Price: $" + String.format("%.2f", subtotal * 1.13) + "\n");
+                    textArea1.append("Your order number is: "  + orderNumber + "\n");
                 } else if (e.getSource() == newOrderButton) {
                     subtotal = 0.0;
                     totalPrice = 0.0;
                     textArea1.setText("Welcome to McDonald's!\n");
                     textArea1.append("New order started.\n");
                     //creates a new order
+                } else if (e.getSource() == voidOrderButton) {
+                    textArea1.setText("Order voided.\n");
+                    subtotal = 0.0;
+                    totalPrice = 0.0;
+                    selectedFood = null;
+                    selectedFriesSize = null;
+                    selectedDrink = null;
+                    foodPrice = 0.0;
+                    friesPrice = 0.0;
+                    drinkPrice = 0.0;
                 }
             }
         };
@@ -197,6 +225,7 @@ public class Main extends JFrame{
         TakeOutButton.addActionListener(listener1);
         EatInButton.addActionListener(listener1);
         newOrderButton.addActionListener(listener1);
+        voidOrderButton.addActionListener(listener1);
     }
 
     public static void main(String[] args) {
@@ -209,8 +238,9 @@ public class Main extends JFrame{
         Main menu = new Main();
         menu.setContentPane(menu.mainPanel);
         menu.getContentPane().setBackground(Color.white);
+        FlatIntelliJLaf.setup(); // Sets the FlatLaf theme
 
-        menu.setSize(1920,1080);
+        menu.setSize(1280,720);
         menu.setTitle("Mcdonalds");
         menu.setVisible(true);
         menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -255,6 +285,10 @@ public class Main extends JFrame{
         for(JButton button : drinkButtons) {
             buttonPrices.put(button, 1.99);
         }
+    }
+
+    public void setRandomOrderNumber(){
+        orderNumber = (int)(Math.random() * 900 + 100); // Generates a random order number between 100 and 999
     }
 
 }
