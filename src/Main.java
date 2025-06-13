@@ -9,9 +9,6 @@ import java.util.Map;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main extends JFrame{
     private JPanel mainPanel;
-    private JButton lunchButton;
-    private JButton dessertsButton;
-    private JButton bakeryButton;
     private JTabbedPane tabbedPane;
     public JPanel FoodPanel;
     private JPanel drinkPanel;
@@ -88,6 +85,7 @@ public class Main extends JFrame{
     private JButton TakeOutButton;
     private JButton EatInButton;
     private JButton newOrderButton;
+    private JButton Logo;
 
     private final JButton[] bakeryButtons = {
         pieButton, muffinButton, cookieButton, mcPopButton
@@ -167,7 +165,9 @@ public class Main extends JFrame{
                     selectedFood = null;
                     selectedFriesSize = null;
                     selectedDrink = null;
-
+                    foodPrice = 0.0;
+                    friesPrice = 0.0;
+                    drinkPrice = 0.0;
                     textArea1.append(meal.toString() + "\n");
 
                 } else if (e.getSource() == TakeOutButton) {
