@@ -168,7 +168,7 @@ public class Main extends JFrame{
                     foodPrice = 0.0;
                     friesPrice = 0.0;
                     drinkPrice = 0.0;
-                    textArea1.append(meal.toString() + "\n");
+                    textArea1.append(meal + "\n");
 
                 } else if (e.getSource() == TakeOutButton) {
                     textArea1.append("Take Out selected.\n");
