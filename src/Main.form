@@ -16,7 +16,9 @@
             <maximum-size width="960" height="540"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <font name="Lucida Sans" size="18" style="0"/>
+        </properties>
         <border type="none"/>
         <children>
           <grid id="ba00e" binding="FoodPanel" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -458,7 +460,7 @@
         </constraints>
         <properties>
           <font name="Lucida Sans" size="16" style="0"/>
-          <lineWrap value="false"/>
+          <lineWrap value="true"/>
         </properties>
       </component>
       <component id="f9131" class="javax.swing.JLabel">
@@ -542,25 +544,31 @@
       </component>
       <component id="2866c" class="javax.swing.JButton" binding="newOrderButton">
         <constraints>
-          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
             <minimum-size width="120" height="120"/>
             <preferred-size width="120" height="120"/>
             <maximum-size width="120" height="120"/>
           </grid>
         </constraints>
         <properties>
+          <font name="Lucida Sans" size="14" style="0"/>
+          <horizontalTextPosition value="0"/>
           <text value="New Order"/>
         </properties>
       </component>
       <component id="7de2f" class="javax.swing.JButton" binding="Logo">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <minimum-size width="120" height="120"/>
             <preferred-size width="120" height="120"/>
             <maximum-size width="120" height="120"/>
           </grid>
         </constraints>
         <properties>
+          <background color="-1773057"/>
+          <enabled value="true"/>
+          <foreground color="-394241"/>
+          <horizontalTextPosition value="0"/>
           <icon value="Mcdonalds icons/logo.png"/>
           <text value=""/>
         </properties>

@@ -102,7 +102,8 @@ public class Main extends JFrame{
     public Main() {
 
 
-        setButtonPrices();
+        setButtonPrices(); //sets all prices for buttons
+
         textArea1.setEditable(false);
         for (JButton[] buttons : allButtons) {
             for (JButton button : buttons) {
@@ -112,6 +113,7 @@ public class Main extends JFrame{
                         double price = buttonPrices.getOrDefault(button, 0.0);
                         subtotal += price;
                         textArea1.append(button.getText() + " ($" + String.format("%.2f", price) + ") added to order.\n");
+                        //if the button is pressed it will show in the order text area
                     }
                 });
             }
@@ -136,6 +138,7 @@ public class Main extends JFrame{
                         if (e.getSource() == button) {
                             selectedFriesSize = button.getText();
                             friesPrice = buttonPrices.getOrDefault(button, 0.0);
+                            // Set fries price based on the selected size
                         }
                     }
                 });
@@ -183,6 +186,7 @@ public class Main extends JFrame{
                     totalPrice = 0.0;
                     textArea1.setText("Welcome to McDonald's!\n");
                     textArea1.append("New order started.\n");
+                    //creates a new order
                 }
             }
         };
@@ -204,7 +208,7 @@ public class Main extends JFrame{
 
         Main menu = new Main();
         menu.setContentPane(menu.mainPanel);
-        menu.getContentPane().setBackground(Color.black);
+        menu.getContentPane().setBackground(Color.white);
 
         menu.setSize(1920,1080);
         menu.setTitle("Mcdonalds");

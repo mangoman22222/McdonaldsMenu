@@ -5,6 +5,8 @@ public class Meal {
     private double price;
     private String friesSize;
 
+    // Constructor to initialize the Meal object with food, fries size, and drink
+
     public Meal(String food, String friesSize, String drink) {
         this.food = food;
         this.drink = drink;
