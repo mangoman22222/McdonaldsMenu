@@ -563,10 +563,16 @@
         </constraints>
         <properties>
           <background color="-1773057"/>
+          <borderPainted value="false"/>
           <enabled value="true"/>
+          <focusPainted value="false"/>
+          <focusable value="false"/>
           <foreground color="-394241"/>
           <horizontalTextPosition value="0"/>
           <icon value="Mcdonalds icons/logo.png"/>
+          <opaque value="false"/>
+          <requestFocusEnabled value="false"/>
+          <rolloverEnabled value="false"/>
           <text value=""/>
         </properties>
       </component>

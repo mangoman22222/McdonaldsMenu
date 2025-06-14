@@ -4,7 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
-import com.formdev.flatlaf.FlatIntelliJLaf;
+import java.util.ArrayList;
+
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -27,6 +30,12 @@ public class Main extends JFrame{
     private double drinkPrice = 0.0;
     private double foodPrice = 0.0;
     private int orderNumber = 0;
+    private ArrayList<String> orderItems = new ArrayList<>();
+    private double price = 0.0;
+    private String tempFood = null;
+    private String tempFries = null;
+    private String tempDrink = null;
+
 
     //Food Buttons
     private JButton bigMacButton;
@@ -112,9 +121,10 @@ public class Main extends JFrame{
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        double price = buttonPrices.getOrDefault(button, 0.0);
+                        price = buttonPrices.getOrDefault(button, 0.0);
                         subtotal += price;
-                        textArea1.append(button.getText() + " ($" + String.format("%.2f", price) + ") added to order.\n");
+                        orderItems.add(button.getText() + " ($" + String.format("%.2f", price) + ") added to order.");
+                        setOrderItems();
                         //if the button is pressed it will show in the order text area
                     }
                 });
@@ -128,6 +138,7 @@ public class Main extends JFrame{
                         if (e.getSource() == button) {
                             selectedFood = button.getText();
                             foodPrice = buttonPrices.getOrDefault(button, 0.0);
+                            tempFood = button.getText() + " ($" + String.format("%.2f", foodPrice) + ") added to order.";
                         }
                     }
                 });
@@ -140,6 +151,7 @@ public class Main extends JFrame{
                         if (e.getSource() == button) {
                             selectedFriesSize = button.getText();
                             friesPrice = buttonPrices.getOrDefault(button, 0.0);
+                            tempFries = button.getText() + " ($" + String.format("%.2f", friesPrice) + ") added to order."; // Updates the temporary fries variable
                             // Set fries price based on the selected size
                         }
                     }
@@ -153,6 +165,7 @@ public class Main extends JFrame{
                     if (e.getSource() == button) {
                         selectedDrink = button.getText();
                         drinkPrice = buttonPrices.getOrDefault(button, 0.0);
+                        tempDrink = button.getText() + " ($" + String.format("%.2f", drinkPrice) + ") added to order.";
                     }
                 }
             });
@@ -170,18 +183,20 @@ public class Main extends JFrame{
                     meal.setPrice(foodPrice, friesPrice, drinkPrice);// 20% discount on meal price
                     subtotal+= meal.getPrice();
                     subtotal -= (foodPrice + friesPrice + drinkPrice);
-
+                    findMealItems();
+                    orderItems.add(meal.toString()); // Adds meal to the order items
+                    setOrderItems();
                     selectedFood = null;
                     selectedFriesSize = null;
                     selectedDrink = null;
                     foodPrice = 0.0;
                     friesPrice = 0.0;
                     drinkPrice = 0.0;
-                    textArea1.append(meal + "\n");
+
 
                 } else if (e.getSource() == TakeOutButton) {
                     if (subtotal == 0.0) {
-                        textArea1.append("Please select items before taking out.\n");
+                        textArea1.append("Please select items before taking out.\n"); // Checks if the subtotal is 0.0 to ensure items are selected
                         return;
                     }
                     textArea1.append("Take Out selected.\n");
@@ -200,21 +215,12 @@ public class Main extends JFrame{
                     textArea1.append("Total Price: $" + String.format("%.2f", subtotal * 1.13) + "\n");
                     textArea1.append("Your order number is: "  + orderNumber + "\n");
                 } else if (e.getSource() == newOrderButton) {
-                    subtotal = 0.0;
-                    totalPrice = 0.0;
-                    textArea1.setText("Welcome to McDonald's!\n");
+                    resetOrder(); // Resets the order details
                     textArea1.append("New order started.\n");
                     //creates a new order
                 } else if (e.getSource() == voidOrderButton) {
                     textArea1.setText("Order voided.\n");
-                    subtotal = 0.0;
-                    totalPrice = 0.0;
-                    selectedFood = null;
-                    selectedFriesSize = null;
-                    selectedDrink = null;
-                    foodPrice = 0.0;
-                    friesPrice = 0.0;
-                    drinkPrice = 0.0;
+                    resetOrder(); // Resets the order details
                 }
             }
         };
@@ -238,10 +244,10 @@ public class Main extends JFrame{
         Main menu = new Main();
         menu.setContentPane(menu.mainPanel);
         menu.getContentPane().setBackground(Color.white);
-        FlatIntelliJLaf.setup(); // Sets the FlatLaf theme
+        FlatLightLaf.setup(); // Sets the FlatLaf theme
 
         menu.setSize(1280,720);
-        menu.setTitle("Mcdonalds");
+        menu.setTitle("Mcdonald's");
         menu.setVisible(true);
         menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         menu.setLocationRelativeTo(null);
@@ -289,6 +295,57 @@ public class Main extends JFrame{
 
     public void setRandomOrderNumber(){
         orderNumber = (int)(Math.random() * 900 + 100); // Generates a random order number between 100 and 999
+    }
+
+    public void setOrderItems(){
+            textArea1.setText("");
+            for (String item : orderItems) {
+                textArea1.append(item + "\n");
+            }
+    }
+
+    public void resetOrder() {
+        subtotal = 0.0;
+        totalPrice = 0.0;
+        selectedFood = null;
+        selectedFriesSize = null;
+        selectedDrink = null;
+        foodPrice = 0.0;
+        friesPrice = 0.0;
+        drinkPrice = 0.0;
+        orderItems.clear();
+        textArea1.setText("Welcome to McDonald's!\n");
+    }
+
+    public void findMealItems() {
+
+        boolean findFood = false;
+        boolean findFries = false;
+        boolean findDrink = false;
+        for (int i = 0; i < orderItems.size();) {
+            String item = orderItems.get(i);
+            if (!findFood && item.equals(tempFood)) {
+                orderItems.remove(i); // Remove the food item from the order items
+                findFood = true;
+
+            }else if (!findFries && item.equals(tempFries)) {
+                orderItems.remove(i); // Remove the fries item from the order items
+                findFries = true;
+            }else if (!findDrink && item.equals(tempDrink)) {
+                orderItems.remove(i); // Remove the drink item from the order items
+                findDrink = true;
+            }else {
+                i++; // add the index to avoid skipping the next item after removal
+            }
+
+            if (findFood && findFries && findDrink) {
+                tempFood = null; // Reset temporary variables after finding all items
+                tempFries = null;
+                tempDrink = null;
+                break; // Exit the loop if all items are found
+            }
+        }
+        setOrderItems();
     }
 
 }
