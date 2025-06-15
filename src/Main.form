@@ -102,7 +102,7 @@
                   <verticalTextPosition value="3"/>
                 </properties>
               </component>
-              <component id="903a7" class="javax.swing.JButton" binding="mcwrapButton" default-binding="true">
+              <component id="903a7" class="javax.swing.JButton" binding="mcWrapButton">
                 <constraints>
                   <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                     <minimum-size width="120" height="120"/>
@@ -115,7 +115,7 @@
                   <focusable value="false"/>
                   <horizontalTextPosition value="0"/>
                   <icon value="Mcdonalds icons/mcwrap.png"/>
-                  <text value="Mcwrap"/>
+                  <text value="McWrap"/>
                   <verticalAlignment value="3"/>
                   <verticalTextPosition value="3"/>
                 </properties>
@@ -299,7 +299,7 @@
                   <verticalTextPosition value="3"/>
                 </properties>
               </component>
-              <component id="f4868" class="javax.swing.JButton" binding="hambugerButton" default-binding="true">
+              <component id="f4868" class="javax.swing.JButton" binding="hamburgerButton">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                     <minimum-size width="120" height="120"/>
@@ -310,7 +310,7 @@
                 <properties>
                   <horizontalTextPosition value="0"/>
                   <icon value="Mcdonalds icons/happy meal photos/hambuger.png"/>
-                  <text value="Hambuger"/>
+                  <text value="Hamburger"/>
                   <verticalTextPosition value="3"/>
                 </properties>
               </component>

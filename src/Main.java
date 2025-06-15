@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +26,7 @@ public class Main extends JFrame{
     private double drinkPrice = 0.0;
     private double foodPrice = 0.0;
     private int orderNumber = 0;
-    private ArrayList<String> orderItems = new ArrayList<>();
+    private final ArrayList<String> orderItems = new ArrayList<>();
     private double price = 0.0;
     private String tempFood = null;
     private String tempFries = null;
@@ -39,11 +38,11 @@ public class Main extends JFrame{
     private JButton McChickenButton;
     private JButton QtrCheeseButton;
     private JButton nuggetsButton;
-    private JButton mcwrapButton;
+    private JButton mcWrapButton;
     private JButton filetButton;
 
     private final JButton[] foodButtons = {
-        bigMacButton, McChickenButton, QtrCheeseButton, nuggetsButton, mcwrapButton, filetButton
+        bigMacButton, McChickenButton, QtrCheeseButton, nuggetsButton, mcWrapButton, filetButton
     };
     //Drink Buttons
     private JButton cokeButton;
@@ -61,10 +60,10 @@ public class Main extends JFrame{
     private JButton nuggetsButton1;
     private JButton cheeseburgerButton;
     private JButton hotCakesButton;
-    private JButton hambugerButton;
+    private JButton hamburgerButton;
 
     private final JButton[] happyMealButtons = {
-        nuggetsButton1, cheeseburgerButton, hotCakesButton, hambugerButton
+        nuggetsButton1, cheeseburgerButton, hotCakesButton, hamburgerButton
     };
 
     //Dessert Buttons
@@ -99,7 +98,7 @@ public class Main extends JFrame{
         pieButton, muffinButton, cookieButton, mcPopButton
     };
 
-    private final JButton[][] allButtons = {
+    JButton[][] allButtons = {
         foodButtons,
         drinkButtons,
         dessertButtons,
@@ -122,131 +121,113 @@ public class Main extends JFrame{
         textArea1.setEditable(false);
         for (JButton[] buttons : allButtons) {
             for (JButton button : buttons) {
-                button.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        price = buttonPrices.getOrDefault(button, 0.0);
-                        subtotal += price;
-                        orderItems.add(button.getText() + " ($" + String.format("%.2f", price) + ") added to order.");
-                        setOrderItems();
-                        //if the button is pressed it will show in the order text area
-                    }
+                button.addActionListener(_ -> {
+                    price = buttonPrices.getOrDefault(button, 0.0);
+                    subtotal += price;
+                    orderItems.add(button.getText() + " ($" + String.format("%.2f", price) + ") added to order.");
+                    setOrderItems();
+                    //if the button is pressed it will show in the order text area
                 });
             }
         }
 
             for (JButton button : foodButtons) {
-                button.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (e.getSource() == button) {
-                            selectedFood = button.getText();
-                            foodPrice = buttonPrices.getOrDefault(button, 0.0);
-                            tempFood = button.getText() + " ($" + String.format("%.2f", foodPrice) + ") added to order.";
-                        }
+                button.addActionListener(e -> {
+                    if (e.getSource() == button) {
+                        selectedFood = button.getText();
+                        foodPrice = buttonPrices.getOrDefault(button, 0.0);
+                        tempFood = button.getText() + " ($" + String.format("%.2f", foodPrice) + ") added to order.";
                     }
                 });
             }
 
             for (JButton button : friesButtons) {
-                button.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (e.getSource() == button) {
-                            selectedFriesSize = button.getText();
-                            friesPrice = buttonPrices.getOrDefault(button, 0.0);
-                            tempFries = button.getText() + " ($" + String.format("%.2f", friesPrice) + ") added to order."; // Updates the temporary fries variable
-                            // Set fries price based on the selected size
-                        }
+                button.addActionListener(e -> {
+                    if (e.getSource() == button) {
+                        selectedFriesSize = button.getText();
+                        friesPrice = buttonPrices.getOrDefault(button, 0.0);
+                        tempFries = button.getText() + " ($" + String.format("%.2f", friesPrice) + ") added to order."; // Updates the temporary fries variable
+                        // Set fries price based on the selected size
                     }
                 });
             }
 
         for (JButton button : drinkButtons) {
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (e.getSource() == button) {
-                        selectedDrink = button.getText();
-                        drinkPrice = buttonPrices.getOrDefault(button, 0.0);
-                        tempDrink = button.getText() + " ($" + String.format("%.2f", drinkPrice) + ") added to order.";
-                    }
+            button.addActionListener(e -> {
+                if (e.getSource() == button) {
+                    selectedDrink = button.getText();
+                    drinkPrice = buttonPrices.getOrDefault(button, 0.0);
+                    tempDrink = button.getText() + " ($" + String.format("%.2f", drinkPrice) + ") added to order.";
                 }
             });
         }
 
         for (JButton button : happyMealButtons) {
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (e.getSource() == button) {
-                        String food = button.getText();
-                        String drink = selectedDrink;
-                        HappyMeal happyMeal = new HappyMeal(food, drink);
-                        happyMeal.setPrice(buttonPrices.getOrDefault(button, 0.0), drinkPrice);
-                        subtotal += happyMeal.getPrice();
-                        orderItems.add(happyMeal.toString()); // Adds a Happy Meal to order items
-                        findHappyMealDrink();
-                    }
+            button.addActionListener(e -> {
+                if (e.getSource() == button) {
+                    String food = button.getText();
+                    String drink = selectedDrink;
+                    HappyMeal happyMeal = new HappyMeal(food, drink);
+                    happyMeal.setPrice(buttonPrices.getOrDefault(button, 0.0), drinkPrice);
+                    subtotal += happyMeal.getPrice();
+                    orderItems.add(happyMeal.toString()); // Adds a Happy Meal to order items
+                    findHappyMealDrink();
                 }
             });
         }
-        ActionListener listener1 = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == mealButton) {
-                    if (selectedFood == null || selectedFriesSize == null || selectedDrink == null) {
-                        textArea1.append("Please select food, fries size, and drink before adding a meal.\n");
-                        return;
-                    }
-                    textArea1.append("Meal added to order.\n");
-                    Meal meal = new Meal(selectedFood, selectedFriesSize, selectedDrink);
-                    meal.setPrice(foodPrice, friesPrice, drinkPrice);// 20% discount on meal price
-                    subtotal+= meal.getPrice();
-                    subtotal -= (foodPrice + friesPrice + drinkPrice);
-                    findMealItems();
-                    orderItems.add(meal.toString()); // Adds meal to the order items
-                    setOrderItems();
-                    selectedFood = null;
-                    selectedFriesSize = null;
-                    selectedDrink = null;
-                    foodPrice = 0.0;
-                    friesPrice = 0.0;
-                    drinkPrice = 0.0;
-
-
-                } else if (e.getSource() == TakeOutButton) {
-                    if (subtotal == 0.0) {
-                        textArea1.append("Please select items before taking out.\n"); // Checks if the subtotal is 0.0 to ensure items are selected
-                        return;
-                    }
-                    textArea1.append("Take Out selected.\n");
-                    textArea1.append("Subtotal: $" + String.format("%.2f", subtotal) + "\n");
-                    textArea1.append("Total Price: $" + String.format("%.2f", subtotal * 1.13) + "\n");
-                    setRandomOrderNumber();
-                    textArea1.append("Your order number is: "  + orderNumber + "\n");
-                    endOrder(); // Disables all buttons after the order is completed
-                } else if (e.getSource() == EatInButton) {
-                    if (subtotal == 0.0) {
-                        textArea1.append("Please select items before eating in.\n");
-                        return;
-                    }
-                    textArea1.append("Eat In selected.\n");
-                    textArea1.append("Subtotal: $" + String.format("%.2f", subtotal) + "\n");
-                    setRandomOrderNumber();
-                    textArea1.append("Total Price: $" + String.format("%.2f", subtotal * 1.13) + "\n");
-                    textArea1.append("Your order number is: "  + orderNumber + "\n");
-                } else if (e.getSource() == newOrderButton) {
-                    resetOrder(); // Resets the order details
-                    textArea1.setText("Welcome to McDonald's!\n");
-                    textArea1.append("New order started.\n");
-                    startOrder();
-                    //creates a new order
-                } else if (e.getSource() == voidOrderButton) {
-                    startOrder();
-                    resetOrder(); // Resets the order details
-                    textArea1.setText("Order voided.\n");
+        ActionListener listener1 = e -> {
+            if (e.getSource() == mealButton) {
+                if (selectedFood == null || selectedFriesSize == null || selectedDrink == null) {
+                    textArea1.append("Please select food, fries size, and drink before adding a meal.\n");
+                    return;
                 }
+                textArea1.append("Meal added to order.\n");
+                Meal meal = new Meal(selectedFood, selectedFriesSize, selectedDrink);
+                meal.setPrice(foodPrice, friesPrice, drinkPrice);// 20% discount on meal price
+                subtotal+= meal.getPrice();
+                subtotal -= (foodPrice + friesPrice + drinkPrice);
+                findMealItems();
+                orderItems.add(meal.toString()); // Adds meal to the order items
+                setOrderItems();
+                selectedFood = null;
+                selectedFriesSize = null;
+                selectedDrink = null;
+                foodPrice = 0.0;
+                friesPrice = 0.0;
+                drinkPrice = 0.0;
+
+
+            } else if (e.getSource() == TakeOutButton) {
+                if (subtotal == 0.0) {
+                    textArea1.append("Please select items before taking out.\n"); // Checks if the subtotal is 0.0 to ensure items are selected
+                    return;
+                }
+                textArea1.append("Take Out selected.\n");
+                textArea1.append("Subtotal: $" + String.format("%.2f", subtotal) + "\n");
+                textArea1.append("Total Price: $" + String.format("%.2f", subtotal * 1.13) + "\n");
+                setRandomOrderNumber();
+                textArea1.append("Your order number is: "  + orderNumber + "\n");
+                endOrder(); // Disables all buttons after the order is completed
+            } else if (e.getSource() == EatInButton) {
+                if (subtotal == 0.0) {
+                    textArea1.append("Please select items before eating in.\n");
+                    return;
+                }
+                textArea1.append("Eat In selected.\n");
+                textArea1.append("Subtotal: $" + String.format("%.2f", subtotal) + "\n");
+                setRandomOrderNumber();
+                textArea1.append("Total Price: $" + String.format("%.2f", subtotal * 1.13) + "\n");
+                textArea1.append("Your order number is: "  + orderNumber + "\n");
+            } else if (e.getSource() == newOrderButton) {
+                resetOrder(); // Resets the order details
+                textArea1.setText("Welcome to McDonald's!\n");
+                textArea1.append("New order started.\n");
+                startOrder();
+                //creates a new order
+            } else if (e.getSource() == voidOrderButton) {
+                startOrder();
+                resetOrder(); // Resets the order details
+                textArea1.setText("Order voided.\n");
             }
         };
         mealButton.addActionListener(listener1);
@@ -292,14 +273,14 @@ public class Main extends JFrame{
         buttonPrices.put(McChickenButton, 5.99);
         buttonPrices.put(QtrCheeseButton, 7.39);
         buttonPrices.put(nuggetsButton, 9.99);
-        buttonPrices.put(mcwrapButton, 7.99);
+        buttonPrices.put(mcWrapButton, 7.99);
         buttonPrices.put(filetButton, 5.99);
 
         //Happy Meal Prices
         buttonPrices.put(nuggetsButton1, 4.99);
         buttonPrices.put(cheeseburgerButton, 3.99);
         buttonPrices.put(hotCakesButton, 4.49);
-        buttonPrices.put(hambugerButton, 5.49);
+        buttonPrices.put(hamburgerButton, 5.49);
 
         //Bakery Prices
         buttonPrices.put(pieButton, 1.99);
