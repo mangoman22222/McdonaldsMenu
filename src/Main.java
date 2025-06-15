@@ -219,6 +219,7 @@ public class Main extends JFrame{
                 setRandomOrderNumber();
                 textArea1.append("Total Price: $" + String.format("%.2f", subtotal * 1.13) + "\n");
                 textArea1.append("Your order number is: "  + orderNumber + "\n");
+                endOrder();
             } else if (e.getSource() == newOrderButton) {
                 resetOrder(); // Resets the order details
                 textArea1.setText("Welcome to McDonald's!\n");
@@ -377,6 +378,7 @@ public class Main extends JFrame{
 // This method starts a new order by enabling all buttons and resetting the text area
     public void startOrder() {
         textArea1.setText("Welcome to McDonald's!\n");
+        textArea1.append("New order started.\n");
         for (JButton[] buttons : endOrderButtons) {
             for (JButton button : buttons) {
                 button.setEnabled(true); // Enables all buttons at the start of a new order
