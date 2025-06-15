@@ -13,6 +13,7 @@ public class Meal {
         this.friesSize = friesSize;
     }
 
+
     public void setPrice(double foodPrice, double drinkPrice, double friesPrice) {
         price = (foodPrice + drinkPrice + friesPrice) * 0.8;
     }

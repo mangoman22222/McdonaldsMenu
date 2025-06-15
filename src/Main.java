@@ -5,8 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
-
-import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -21,8 +19,7 @@ public class Main extends JFrame{
     private JPanel Bakery;
     private JTextArea textArea1;
     private final Map<JButton, Double> buttonPrices = new HashMap<>();
-    private double totalPrice = 0.0;
-    private double subtotal = 0.0;;
+    private double subtotal = 0.0;
     private String selectedFood = null;
     private String selectedFriesSize = null;
     private String selectedDrink = null;
@@ -62,12 +59,12 @@ public class Main extends JFrame{
 
     //Happy Meal Buttons
     private JButton nuggetsButton1;
-    private JButton cheesebugerButton;
+    private JButton cheeseburgerButton;
     private JButton hotCakesButton;
     private JButton hambugerButton;
 
     private final JButton[] happyMealButtons = {
-        nuggetsButton1, cheesebugerButton, hotCakesButton, hambugerButton
+        nuggetsButton1, cheeseburgerButton, hotCakesButton, hambugerButton
     };
 
     //Dessert Buttons
@@ -105,7 +102,6 @@ public class Main extends JFrame{
     private final JButton[][] allButtons = {
         foodButtons,
         drinkButtons,
-        happyMealButtons,
         dessertButtons,
         bakeryButtons,
             friesButtons
@@ -166,6 +162,23 @@ public class Main extends JFrame{
                         selectedDrink = button.getText();
                         drinkPrice = buttonPrices.getOrDefault(button, 0.0);
                         tempDrink = button.getText() + " ($" + String.format("%.2f", drinkPrice) + ") added to order.";
+                    }
+                }
+            });
+        }
+
+        for (JButton button : happyMealButtons) {
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (e.getSource() == button) {
+                        String food = button.getText();
+                        String drink = selectedDrink != null ? selectedDrink : "Water"; // Default drink if none selected
+                        HappyMeal happyMeal = new HappyMeal(food, drink);
+                        happyMeal.setPrice(buttonPrices.getOrDefault(button, 0.0), drinkPrice);
+                        subtotal += happyMeal.getPrice();
+                        orderItems.add(happyMeal.toString()); // Adds a Happy Meal to order items
+                        findHappyMealDrink();
                     }
                 }
             });
@@ -272,7 +285,7 @@ public class Main extends JFrame{
 
         //Happy Meal Prices
         buttonPrices.put(nuggetsButton1, 4.99);
-        buttonPrices.put(cheesebugerButton, 3.99);
+        buttonPrices.put(cheeseburgerButton, 3.99);
         buttonPrices.put(hotCakesButton, 4.49);
         buttonPrices.put(hambugerButton, 5.49);
 
@@ -306,7 +319,6 @@ public class Main extends JFrame{
 
     public void resetOrder() {
         subtotal = 0.0;
-        totalPrice = 0.0;
         selectedFood = null;
         selectedFriesSize = null;
         selectedDrink = null;
@@ -345,6 +357,21 @@ public class Main extends JFrame{
                 break; // Exit the loop if all items are found
             }
         }
+        setOrderItems();
+    }
+
+    public void findHappyMealDrink()
+    {
+        for (int i = 0; i < orderItems.size();) {
+            String item = orderItems.get(i);
+            if (item.equals(tempDrink)) {
+                orderItems.remove(i); // Remove the drink item from the order items
+                break; // Exit the loop after removing the drink
+            } else {
+                i++; // add the index to avoid skipping the next item after removal
+            }
+        }
+
         setOrderItems();
     }
 
