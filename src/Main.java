@@ -131,6 +131,7 @@ public class Main extends JFrame{
             }
         }
 
+        //The following code adds action listeners to the buttons for food, fries, drinks, and happy meals so that when a button is pressed the meals can work properly
             for (JButton button : foodButtons) {
                 button.addActionListener(e -> {
                     if (e.getSource() == button) {
@@ -241,16 +242,11 @@ public class Main extends JFrame{
     }
 
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
 
         Main menu = new Main();
         menu.setContentPane(menu.mainPanel);
         menu.getContentPane().setBackground(Color.white);
-        FlatLightLaf.setup(); // Sets the FlatLaf theme
+        FlatLightLaf.setup(); // Sets the FlatLaf theme (makes the UI look modern)
 
         menu.setSize(1280,720);
         menu.setTitle("Mcdonald's");
@@ -259,7 +255,7 @@ public class Main extends JFrame{
         menu.setLocationRelativeTo(null);
     }
 
-
+    // uses a hashmap to set the prices of the buttons
     public void setButtonPrices()
     {
         //Dessert Prices
@@ -293,7 +289,7 @@ public class Main extends JFrame{
         buttonPrices.put(smallButton, 3.99);
 
 
-        //Drink Prices
+        //Drink Prices are set to a default price of 1.99
         for(JButton button : drinkButtons) {
             buttonPrices.put(button, 1.99);
         }
@@ -303,13 +299,14 @@ public class Main extends JFrame{
         orderNumber = (int)(Math.random() * 900 + 100); // Generates a random order number between 100 and 999
     }
 
+    //This method appends the order items arraylist to the text area
     public void setOrderItems(){
             textArea1.setText("");
             for (String item : orderItems) {
                 textArea1.append(item + "\n");
             }
     }
-
+// This method resets the order details
     public void resetOrder() {
         subtotal = 0.0;
         selectedFood = null;
@@ -320,7 +317,7 @@ public class Main extends JFrame{
         drinkPrice = 0.0;
         orderItems.clear();
     }
-
+    //this method finds the meal items in the order items arraylist and removes them
     public void findMealItems() {
 
         boolean findFood = false;
@@ -351,7 +348,7 @@ public class Main extends JFrame{
         }
         setOrderItems();
     }
-
+// This method finds the Happy Meal drink in the order items arraylist and removes it
     public void findHappyMealDrink()
     {
         for (int i = 0; i < orderItems.size();) {
@@ -366,7 +363,7 @@ public class Main extends JFrame{
 
         setOrderItems();
     }
-
+// This method disables all buttons after the order is completed except for the new order button and void order button
     public void endOrder(){
 
         for (JButton[] buttons: endOrderButtons)
@@ -377,7 +374,7 @@ public class Main extends JFrame{
         }
 
     }
-
+// This method starts a new order by enabling all buttons and resetting the text area
     public void startOrder() {
         textArea1.setText("Welcome to McDonald's!\n");
         for (JButton[] buttons : endOrderButtons) {
