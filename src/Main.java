@@ -106,6 +106,14 @@ public class Main extends JFrame{
         bakeryButtons,
             friesButtons
     };
+
+    private final JButton[] orderButtons = {
+            mealButton, TakeOutButton, EatInButton
+    };
+
+    private final JButton[][] endOrderButtons = {
+            foodButtons, drinkButtons, happyMealButtons, dessertButtons, bakeryButtons, friesButtons, happyMealButtons, orderButtons
+    };
     public Main() {
 
 
@@ -173,7 +181,7 @@ public class Main extends JFrame{
                 public void actionPerformed(ActionEvent e) {
                     if (e.getSource() == button) {
                         String food = button.getText();
-                        String drink = selectedDrink != null ? selectedDrink : "Water"; // Default drink if none selected
+                        String drink = selectedDrink;
                         HappyMeal happyMeal = new HappyMeal(food, drink);
                         happyMeal.setPrice(buttonPrices.getOrDefault(button, 0.0), drinkPrice);
                         subtotal += happyMeal.getPrice();
@@ -217,6 +225,7 @@ public class Main extends JFrame{
                     textArea1.append("Total Price: $" + String.format("%.2f", subtotal * 1.13) + "\n");
                     setRandomOrderNumber();
                     textArea1.append("Your order number is: "  + orderNumber + "\n");
+                    endOrder(); // Disables all buttons after the order is completed
                 } else if (e.getSource() == EatInButton) {
                     if (subtotal == 0.0) {
                         textArea1.append("Please select items before eating in.\n");
@@ -229,11 +238,14 @@ public class Main extends JFrame{
                     textArea1.append("Your order number is: "  + orderNumber + "\n");
                 } else if (e.getSource() == newOrderButton) {
                     resetOrder(); // Resets the order details
+                    textArea1.setText("Welcome to McDonald's!\n");
                     textArea1.append("New order started.\n");
+                    startOrder();
                     //creates a new order
                 } else if (e.getSource() == voidOrderButton) {
-                    textArea1.setText("Order voided.\n");
+                    startOrder();
                     resetOrder(); // Resets the order details
+                    textArea1.setText("Order voided.\n");
                 }
             }
         };
@@ -326,7 +338,6 @@ public class Main extends JFrame{
         friesPrice = 0.0;
         drinkPrice = 0.0;
         orderItems.clear();
-        textArea1.setText("Welcome to McDonald's!\n");
     }
 
     public void findMealItems() {
@@ -373,6 +384,26 @@ public class Main extends JFrame{
         }
 
         setOrderItems();
+    }
+
+    public void endOrder(){
+
+        for (JButton[] buttons: endOrderButtons)
+        {
+            for (JButton button : buttons) {
+                button.setEnabled(false); // Disables all buttons after the order is completed
+            }
+        }
+
+    }
+
+    public void startOrder() {
+        textArea1.setText("Welcome to McDonald's!\n");
+        for (JButton[] buttons : endOrderButtons) {
+            for (JButton button : buttons) {
+                button.setEnabled(true); // Enables all buttons at the start of a new order
+            }
+        }
     }
 
 }

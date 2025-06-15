@@ -9,6 +9,10 @@ public class HappyMeal {
     public HappyMeal(String food, String drink) {
         this.food = food;
         this.drink = drink;
+        if (drink == null)
+        {
+            this.drink = "Water"; // Default drink if none is provided
+        }
     }
 
     public void setPrice(double foodPrice, double drinkPrice) {
